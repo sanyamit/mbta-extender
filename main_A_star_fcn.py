@@ -136,7 +136,7 @@ class RailEnv:
         ax.set_xlim(0, self.grid_size)
         ax.set_ylim(0, self.grid_size)
         ax.set_aspect('equal')
-        ax.set_title("RL + A* Rail Lines")
+        ax.set_title("A* connected Rail Lines")
         plt.gca().invert_yaxis()
         plt.show()
 
