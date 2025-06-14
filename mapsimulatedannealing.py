@@ -77,6 +77,6 @@ for _, row in selected_towns.iterrows():
     gpd.GeoSeries([line], crs="EPSG:4326").plot(ax=ax, color='black', linewidth=2)
 
 selected_towns.boundary.plot(ax=ax, edgecolor='black', linewidth=2)
-plt.title("Simulated Annealing: Towns Selected by Population, Cost, Distance")
+plt.title("Simulated Annealing: Towns Selected by Population, Terrain Type, Distance")
 plt.axis('off')
 plt.show()
