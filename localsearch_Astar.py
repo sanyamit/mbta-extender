@@ -5,19 +5,19 @@ import random
 from collections import defaultdict
 
 class RailEnv:
-    def __init__(self, grid_size=20, num_stations=5, num_new_stations=15):
+    def __init__(self, grid_size=20, num_stations=5, num_new_stations=20):
         self.grid_size = grid_size
         self.num_stations = num_stations
         self.num_new_stations = num_new_stations
 
         self.terrain_types = {
-            "urban": {"cost": 8, "color": "red", "population": (70000, 100000)},
-            "suburban_commercial": {"cost": 5, "color": "orange", "population": (20000, 40000)},
-            "suburban_residential": {"cost": 3, "color": "yellow", "population": (10000, 30000)},
+            "urban": {"cost": 40, "color": "red", "population": (70000, 100000)},
+            "suburban_commercial": {"cost": 20, "color": "orange", "population": (20000, 40000)},
+            "suburban_residential": {"cost": 10, "color": "yellow", "population": (10000, 30000)},
             "rural": {"cost": 2, "color": "green", "population": (500, 1000)}
         }
         self.terrain_list = list(self.terrain_types.keys())
-        self.terrain_probs = [0.05, 0.25, 0.25, 0.45]
+        self.terrain_probs = [0.07, 0.15, 0.48, 0.3]
 
         self.local_search_iterations = 100
         self.branch_penalty = 200
@@ -205,7 +205,7 @@ def show_legend(pop_served, cost, cost_per):
 
 def run_simulation():
     print("Rail Network Optimization with Local Search")
-    env = RailEnv(grid_size=20, num_stations=7, num_new_stations=7)
+    env = RailEnv(grid_size=20, num_stations=7, num_new_stations=15)
     env.reset()
     env.render("Initial Setup with Existing Stations")
     print("Optimizing new station locations...")
@@ -216,9 +216,6 @@ def run_simulation():
     env.render("Final Network with Connections")
     print("\nFinal Statistics:")
     print(f"Total Population Served: {env.total_population_served:,}")
-    print(f"Total Construction Cost: {env.total_construction_cost:,}")
-    print(f"Cost per Person: {env.total_construction_cost/env.total_population_served:.2f}")
-    show_legend(env.total_population_served, env.total_construction_cost,
-                env.total_construction_cost / env.total_population_served)
+    print(f"Total Construction Cost (in millions): {env.total_construction_cost:,}")
 
 run_simulation()
