@@ -11,10 +11,10 @@ class RailEnv:
         self.num_new_stations = num_new_stations
 
         self.terrain_types = {
-            "urban": {"cost": 40, "color": "red", "population": (70000, 100000)},
-            "suburban_commercial": {"cost": 20, "color": "orange", "population": (20000, 40000)},
+            "urban": {"cost": 100, "color": "red", "population": (70000, 100000)},
+            "suburban_commercial": {"cost": 30, "color": "orange", "population": (20000, 40000)},
             "suburban_residential": {"cost": 10, "color": "yellow", "population": (10000, 30000)},
-            "rural": {"cost": 2, "color": "green", "population": (500, 1000)}
+            "rural": {"cost": 3, "color": "green", "population": (500, 1000)}
         }
         self.terrain_list = list(self.terrain_types.keys())
         self.terrain_probs = [0.07, 0.15, 0.48, 0.3]
