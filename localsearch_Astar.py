@@ -161,7 +161,7 @@ class RailEnv:
         for town in solution:
             path, cost = self._astar(town, self.stations)
             if path:
-                score += self._calculate_3x3_population(town) - cost
+                score += self._calculate_3x3_population(town) - cost*100
         return score
 
     def connect_towns(self):
