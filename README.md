@@ -20,20 +20,24 @@ Map Setup:
 
 The Massachusetts town shapefile (CENSUS2020TOWNS_POLY.shp) is loaded using GeoPandas.
 Towns are merged with area classification data (auto_area_type_classification.csv) containing population, area type (urban, rural, etc.), and density.
+
 Simulated Annealing (SA):
 Starts with a random sample of towns (num_towns, e.g. 15).
 Each town is scored using: score = population − ( distance_to_station × terrain_cost × penalty )
 Over 150 iterations, the algorithm accepts better town sets and occasionally accepts worse ones (to escape local optima), gradually settling on the best combination.
+
 A* Pathfinding:
 Each town is treated as a node, with connections to nearby towns within 30 km.
 Edge cost = distance × terrain cost (cheaper to build in rural areas).
 Heuristic = geodesic (straight-line) distance to the nearest existing station.
 A* finds the most cost-effective path from each new town to its nearest station.
+
 Visualization:
 Towns are color-coded by area type.
 Existing stations are shown as blue stars (from stations.csv).
 Selected towns are highlighted with boundary outlines.
 Black lines show A*-generated connection paths.
+
 Required Files
 These need to be in the directory:
 main.py – Python script with the full SA + A* implementation
@@ -41,6 +45,7 @@ auto_area_type_classification.csv – Includes town names, area types, and popul
 stations.csv – Contains existing stations with name, lat, lon
 CENSUS2020TOWNS_SHP/ – Folder with MA shapefile data:
 Includes .shp, .dbf, .shx, .prj
+
 How to Run
 Install dependencies:
 pip install geopandas shapely matplotlib pandas geopy
