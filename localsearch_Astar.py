@@ -4,8 +4,8 @@ import heapq
 import random
 from collections import defaultdict
 
-class RailEnv:
-    def __init__(self, grid_size=20, num_stations=5, num_new_stations=20):
+class RailEnv:  
+    def __init__(self, grid_size=20, num_stations=5, num_new_stations=20):   #This sets the rules for the initial grid env
         self.grid_size = grid_size
         self.num_stations = num_stations
         self.num_new_stations = num_new_stations
@@ -20,11 +20,11 @@ class RailEnv:
         self.terrain_probs = [0.07, 0.15, 0.48, 0.3]
 
         self.local_search_iterations = 100
-        self.branch_penalty = 200
+        self.branch_penalty = 900
 
         self.reset()
 
-    def reset(self):
+    def reset(self): # This sets the grid env to its initial state, and classifies which cells are which terrain and where the existing stations are
         self.grid = {}
         for x in range(self.grid_size):
             for y in range(self.grid_size):
@@ -50,7 +50,7 @@ class RailEnv:
         self.total_population_served = 0
         self.total_construction_cost = 0
 
-    def render(self, title="Rail Network Planning"):
+    def render(self, title="Rail Network Planning"):  #This renders the grid environment, giving the viewer a visual
         fig, ax = plt.subplots(figsize=(12, 12))
         for (x, y), info in self.grid.items():
             color = self.terrain_types[info["terrain"]]["color"]
@@ -77,10 +77,10 @@ class RailEnv:
         plt.gca().invert_yaxis()
         plt.show()
 
-    def _get_neighbors(self, x, y):
+    def _get_neighbors(self, x, y): #gets neighboring cells in each of the 4 directions
         return [(x+dx, y+dy) for dx, dy in [(-1,0),(1,0),(0,-1),(0,1)] if 0 <= x+dx < self.grid_size and 0 <= y+dy < self.grid_size]
 
-    def _manhattan(self, a, b):
+    def _manhattan(self, a, b): #obtains manhattan distance for heuristic
         return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
     def _astar(self, start, goals):
@@ -176,7 +176,7 @@ class RailEnv:
             overlap_penalty = sum(self.path_node_usage[p] for p in path) * self.branch_penalty
             total_cost = path_cost + overlap_penalty
             pop_served = self._calculate_3x3_population(town)
-            if pop_served - total_cost > 0:
+            if pop_served - total_cost*0.1 > 0:
                 for cell in path:
                     self.grid[cell]["connected"] = True
                     self.path_node_usage[cell] += 1
@@ -197,7 +197,7 @@ def show_legend(pop_served, cost, cost_per):
         "- o: New Station\n"
         "\n"
         f"Total Population Served: {pop_served:,}\n"
-        f"Total Construction Cost: {cost:,}\n"
+        f"Total Construction Cost (milions): {cost:,}\n"
         f"Cost per Person: {cost_per:.2f}"
     )
     ax.text(0, 1, legend_text, fontsize=12, va='top')
@@ -205,7 +205,7 @@ def show_legend(pop_served, cost, cost_per):
 
 def run_simulation():
     print("Rail Network Optimization with Local Search")
-    env = RailEnv(grid_size=20, num_stations=7, num_new_stations=15)
+    env = RailEnv(grid_size=15, num_stations=6, num_new_stations=10)
     env.reset()
     env.render("Initial Setup with Existing Stations")
     print("Optimizing new station locations...")
@@ -219,3 +219,4 @@ def run_simulation():
     print(f"Total Construction Cost (in millions): {env.total_construction_cost:,}")
 
 run_simulation()
+
